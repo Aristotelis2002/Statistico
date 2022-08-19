@@ -3,3 +3,4 @@ Cargo.lock
 .env
 database.db
 schema.rs
+tests.rs

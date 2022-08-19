@@ -1,3 +1,3 @@
-mod user_ops;
-mod statistic_ops;
-mod object_ops;
+pub mod user_ops;
+pub mod statistic_ops;
+pub mod object_ops;

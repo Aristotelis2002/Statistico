@@ -29,7 +29,7 @@ pub fn show_object_by_id(object_id : i32) -> Object{
 pub fn show_objects_by_statistic_id(statistic_id: i32) -> Vec<Object>{
     let connection = establish_connection();
     sql_query(format!("SELECT *
-                 FROM statistics WHERE objects.statistic_id = {}", statistic_id))
+                 FROM objects WHERE objects.statistic_id = {}", statistic_id))
         .load(&connection)
         .expect("Find object by statistic id query failed")
 }
