@@ -3,7 +3,9 @@ extern crate diesel;
 extern crate dotenvy;
 
 pub mod schema;
-mod database;
+pub mod database;
+//mod database;
+mod ops;
 
 fn main() {
     println!("Hello, world!");
