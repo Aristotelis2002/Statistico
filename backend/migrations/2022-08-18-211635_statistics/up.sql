@@ -4,5 +4,5 @@ CREATE TABLE statistics (
     user_id INTEGER NOT NULL,
     FOREIGN KEY (user_id)
       REFERENCES users (user_id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
 )

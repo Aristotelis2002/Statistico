@@ -13,3 +13,4 @@ futures = "0.3.23"
 env_logger = "0.9.0"
 log = "0.4.17"
 diesel = { version = "^1.4.8", features = ["sqlite"] }
+dotenvy = "0.15.1"
