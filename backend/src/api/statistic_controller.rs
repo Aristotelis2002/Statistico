@@ -4,7 +4,7 @@ use actix_web::{
 };
 use serde::Serialize;
 
-use crate::{ops::statistic_ops::show_statistic_by_user_id, database::models::Statistic};
+use crate::{ops::statistic_ops::*, database::models::Statistic};
 
 #[get("/stats/{user_id}")] //change to json_get
 pub async fn get_all_statistics(info: web::Path<i32>) -> impl Responder {
