@@ -4,7 +4,7 @@ use actix_web::{
 };
 use serde::{Serialize, Deserialize};
 
-use crate::{ops::object_ops::*, database::models::Object};
+use crate::{ops::object_ops::*, database::models::{Object, NewObject}};
 
 #[get("/load/stat/{statistic_id}")]
 pub async fn get_all_objects(info: web::Path<i32>) -> impl Responder{
@@ -12,6 +12,29 @@ pub async fn get_all_objects(info: web::Path<i32>) -> impl Responder{
     let get_all_objects: Vec<Object> = show_objects_by_statistic_id(statistic_id);
     HttpResponse::Ok()
         .json(get_all_objects)
+}
+#[derive(Deserialize)]
+pub struct ObjectInfoAdd{
+    name: String,
+    statistic_id: i32,
+    counter: i32,
+}
+#[post("/object/add/")] //not tested
+pub async fn add_new_object(info: web::Json<ObjectInfoAdd>) -> impl Responder{
+    let info_longer = info.into_inner();
+    let object_new:NewObject = NewObject { 
+        name: &info_longer.name, 
+        statistic_id: info_longer.statistic_id, 
+        counter: info_longer.counter 
+    };
+    if create_object(object_new){
+        HttpResponse::Ok()
+            .json(true)
+            
+    }else{
+        HttpResponse::BadRequest()
+            .json(false)
+    } 
 }
 #[post("/stat/counter/{object_id}/{value_new}")]
 pub async fn update_counter_object(info: web::Path<(i32,i32)>) -> impl Responder{

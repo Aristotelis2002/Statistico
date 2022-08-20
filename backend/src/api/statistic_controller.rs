@@ -7,7 +7,7 @@ use serde::{Serialize, Deserialize};
 
 use crate::{ops::statistic_ops::*, database::models::{Statistic, NewStatistic}};
 
-#[get("/stats/{user_id}")] //change to json_get
+#[get("/stats/{user_id}")] //maybe change to json_get
 pub async fn get_all_statistics(info: web::Path<i32>) -> impl Responder {
     let user_id: i32 = info.into_inner();
     let all_statistics:Vec<Statistic> = show_statistic_by_user_id(user_id);

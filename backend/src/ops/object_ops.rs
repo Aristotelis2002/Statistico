@@ -5,12 +5,13 @@ use diesel::{prelude::*, connection};
 use diesel::dsl::*;
 
 
-pub fn create_object(new_object: NewObject){
+pub fn create_object(new_object: NewObject) -> bool{
     let connection = establish_connection();
     diesel::insert_into(objects::table)
         .values(&new_object)
         .execute(&connection)
-        .expect("Failed creating a new object");
+        .is_ok()
+        //.expect("Failed creating a new object");
 }
 pub fn delete_object(object_id : i32) -> bool{
     use crate::schema::objects::dsl::*;
