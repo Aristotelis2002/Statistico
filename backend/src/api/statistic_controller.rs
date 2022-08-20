@@ -34,7 +34,7 @@ pub async fn add_new_statistic(info: web::Json<StatisticInfo>) -> impl Responder
         HttpResponse::BadRequest()
             .json(false)    
     }
-}
+}//curl "http://localhost:8080/stats/add/" -X "POST" -H "Content-Type: application/json" -d '{"name": "movies", "user_id": 1}'
 
 #[post("stats/delete/{stat_id}")]
 pub async fn delete_statistic_service(info: web::Path<i32>) -> impl Responder{
@@ -45,7 +45,7 @@ pub async fn delete_statistic_service(info: web::Path<i32>) -> impl Responder{
         HttpResponse::BadRequest()
             .json(false)    
     }
-}
+}//curl "http://localhost:8080/stats/delete/3" -X POST
 
 #[derive(Deserialize)]
 pub struct StatisticInfoUpdate{
@@ -67,4 +67,4 @@ pub async fn rename_statistic(info: web::Json<StatisticInfoUpdate>) -> impl Resp
         HttpResponse::BadRequest()
             .json(false)    
     }
-}
+}//curl "http://localhost:8080/stats/rename/" -X "POST" -H "Content-Type: application/json" -d '{"statistic_id": 2, "name": "movies"}

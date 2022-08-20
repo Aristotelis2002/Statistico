@@ -33,6 +33,7 @@ async fn main() -> std::io::Result<()> {
         .service(update_counter_object)
         .service(delete_object_service)
         .service(rename_object)
+        .service(add_new_object)
         .service(add_new_statistic)
         .service(delete_statistic_service)
         .service(rename_statistic)
