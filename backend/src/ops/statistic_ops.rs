@@ -4,19 +4,21 @@ use crate::schema::statistics;
 use diesel::{prelude::*, connection};
 use diesel::dsl::*;
 
-pub fn create_statistic(new_stat: NewStatistic){
+pub fn create_statistic(new_stat: NewStatistic) -> bool{
     let connection = establish_connection();
     diesel::insert_into(statistics::table)
         .values(&new_stat)
         .execute(&connection)
-        .expect("Failed creating a new statistic");
+        .is_ok()
+        //.expect("Failed creating a new statistic");
 }
-pub fn delete_statistic(statistic_id : i32) {
+pub fn delete_statistic(statistic_id : i32) -> bool {
     use crate::schema::statistics::dsl::*;
     let connection = establish_connection();
     diesel::delete(statistics.find(statistic_id))
         .execute(&connection)
-        .expect("Failed to delete statistic");
+        .is_ok()
+        //.expect("Failed to delete statistic");
 }
 pub fn show_statistic_by_id(statistic_id : i32) -> Statistic{
     let connection = establish_connection();
@@ -32,12 +34,12 @@ pub fn show_statistic_by_user_id(user_id:i32) -> Vec<Statistic>{
         .load(&connection)
         .expect("Find statistics by user id query failed")
 }
-pub fn update_statistic(statistic_entity: Statistic) {
+pub fn update_statistic(statistic_entity: Statistic) -> bool {
     let connection = establish_connection();
-    let _ = diesel::update(statistics::table
+    diesel::update(statistics::table
         .find(statistic_entity.id))
         .set(statistics::name.eq(statistic_entity.name))
         .execute(&connection)
-        .expect("Failed to update statistic");
-
+        .is_ok()
+        //.expect("Failed to update statistic");
 }

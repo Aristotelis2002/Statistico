@@ -50,7 +50,6 @@ pub struct ObjectInfo{
 #[post("/object/rename/")]
 pub async fn rename_object(info: web::Json<ObjectInfo>) -> impl Responder{
     let object  = info.into_inner();
-    println!("{:?}", &object.name);
     let res = update_object_name(object.id, object.name);
     if res {
         HttpResponse::Ok()
