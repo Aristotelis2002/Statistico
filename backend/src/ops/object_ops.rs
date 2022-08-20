@@ -12,12 +12,13 @@ pub fn create_object(new_object: NewObject){
         .execute(&connection)
         .expect("Failed creating a new object");
 }
-pub fn delete_object(object_id : i32) {
+pub fn delete_object(object_id : i32) -> bool{
     use crate::schema::objects::dsl::*;
     let connection = establish_connection();
     diesel::delete(objects.find(object_id))
         .execute(&connection)
-        .expect("Failed to delete object");
+        .is_ok()
+        //.expect("Failed to delete object")
 }
 pub fn show_object_by_id(object_id : i32) -> Object{
     let connection = establish_connection();
@@ -33,7 +34,7 @@ pub fn show_objects_by_statistic_id(statistic_id: i32) -> Vec<Object>{
         .load(&connection)
         .expect("Find object by statistic id query failed")
 }
-pub fn update_object(object_entity: Object) {
+pub fn update_object(object_entity: Object) { 
     let connection = establish_connection();
     diesel::update(objects::table
         .find(object_entity.id))
@@ -42,17 +43,23 @@ pub fn update_object(object_entity: Object) {
         .expect("Couldn't update object name");
 
     update_counter(object_entity.id, object_entity.counter);
-    // diesel::update(objects::table
-    //     .find(object_entity.id))
-    //     .set(objects::counter.eq(object_entity.counter))
-    //     .execute(&connection)
-    //     .expect("Couldn't update object counter");
 }
-pub fn update_counter(object_id : i32, counter_value: i32){
+pub fn update_object_name(id_new: i32,name_new: String ) -> bool{
+    let connection = establish_connection();
+    diesel::update(objects::table
+        .find(id_new))
+        .set(objects::name.eq(name_new))
+        .execute(&connection)
+        .is_ok()
+        //.expect("Couldn't update object name");
+}
+
+pub fn update_counter(object_id : i32, counter_value: i32) -> Option<usize>{
     let connection = establish_connection();
     diesel::update(objects::table
         .find(object_id))
         .set(objects::counter.eq(counter_value))
         .execute(&connection)
-        .expect("Couldn't update object counter");
+        .ok()
+        //.expect("Couldn't update object counter");
 }

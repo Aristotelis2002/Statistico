@@ -30,6 +30,9 @@ async fn main() -> std::io::Result<()> {
         .wrap(cors)
         .service(get_all_statistics)
         .service(get_all_objects)
+        .service(update_counter_object)
+        .service(delete_object_service)
+        .service(rename_object)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
