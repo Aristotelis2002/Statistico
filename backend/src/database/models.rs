@@ -1,3 +1,7 @@
+use actix_web::HttpResponse;
+use actix_web::{Responder, body::BoxBody,
+     http::header::ContentType, HttpRequest,
+    };
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -11,7 +15,8 @@ pub struct NewUser<'a> {
     pub username: &'a str,
 }
 
-#[derive(Queryable, Debug, AsChangeset, Serialize, Deserialize)]
+#[derive(Queryable, QueryableByName, Debug, AsChangeset, Serialize, Deserialize)]
+#[table_name = "users"]
 pub struct User{
     pub id: i32,
     pub username: String,
@@ -31,7 +36,15 @@ pub struct Statistic{
     pub name: String,
     pub user_id : i32,
 }
-
+impl Responder for Statistic {
+    type Body = BoxBody;
+    fn respond_to(self, _req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
+        let body = serde_json::to_string(&self).unwrap();
+        HttpResponse::Ok()
+            .content_type(ContentType::json())
+            .body(body)
+    }
+}
 #[derive(Insertable)]
 #[table_name = "objects"]
 pub struct NewObject<'a> {

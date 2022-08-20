@@ -10,8 +10,25 @@ pub mod ops;
 //use crate::ops::user_ops::*;
 //use crate::ops::statistic_ops::*;
 //use crate::{ops::object_ops::*, database::models::Object};
+mod api;
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, middleware::Logger};
 
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    use api::statistic_controller::*;
+    use api::user_controller::*;
+    use api::object_controller::*; 
 
-fn main() {
-   
+    std::env::set_var("RUST_LOG","debug");
+    std::env::set_var("RUST_BACKTRACE","1");
+    env_logger::init();
+    HttpServer::new(|| {
+        let logger: Logger = Logger::default();
+        App::new()
+        .wrap(logger)
+        .service(get_all_statistics)
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
