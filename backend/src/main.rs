@@ -12,13 +12,13 @@ pub mod ops;
 //use crate::{ops::object_ops::*, database::models::Object};
 mod api;
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, middleware::Logger};
+use api::statistic_controller::*;
+use api::user_controller::*;
+use api::object_controller::*; 
+
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    use api::statistic_controller::*;
-    use api::user_controller::*;
-    use api::object_controller::*; 
-
     std::env::set_var("RUST_LOG","debug");
     std::env::set_var("RUST_BACKTRACE","1");
     env_logger::init();
