@@ -11,6 +11,7 @@ pub mod ops;
 //use crate::ops::statistic_ops::*;
 //use crate::{ops::object_ops::*, database::models::Object};
 mod api;
+//mod tests;
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, middleware::Logger};
 use api::statistic_controller::*;
 use api::user_controller::*;

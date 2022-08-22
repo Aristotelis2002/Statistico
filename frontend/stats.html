@@ -12,6 +12,18 @@
     flex-direction: column;
     width: 12%;
 }
+.buttonDel{
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 
 </style>    
 <meta charset="UTF-8">
@@ -20,6 +32,14 @@
 <body>
 
 <h1><div class="title">Statistico</div></h1>
+<form id="create">
+<div>Create a new statistic <br> Statistic name:
+<input type="text" id="statName" name="statName">&nbsp;
+<input type="submit" value="Create">
+</div> 
+</form>
+<br>
+<div>Your statistics</div>
 
 <div id="statistics"> </div>
 

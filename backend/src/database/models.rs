@@ -1,7 +1,6 @@
 use actix_web::HttpResponse;
 use actix_web::{Responder, body::BoxBody,
-     http::header::ContentType, HttpRequest,
-    };
+     http::header::ContentType,};
 use serde::Deserialize;
 use serde::Serialize;
 
