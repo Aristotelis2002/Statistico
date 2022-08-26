@@ -11,11 +11,39 @@
     /* display: flex;
     flex-direction: column; */
     width: 12%;
+    border-style:groove;
+    padding: 0.5%;
+}
+.separate-object{
+    border-style:dotted;
+    padding: 3%;
 }
 .counter-class{
-    width: 20%;
+    width: 18%;
+    text-align: center;
 }
-
+#counter{
+    width: 2%;
+    text-align: center;
+}
+.button-decr{
+    width: 11%;
+}
+#objName{
+    width: 10%;
+}
+.delete-class{
+    background-color: #f44336;
+    border: none;
+    color: white;
+    /* padding: 15px 32px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 </style>    
 <meta charset="UTF-8">
 <title>Statistico</title>
@@ -23,6 +51,17 @@
 <body>
 
 <h1><div class="title">Statistico</div></h1>
+<h2><div id="stat_name"> </div></h2>
+<form id="add">
+    <div>Add a new object <br> Object name:
+    <input type="text" id="objName" name="objName"><br>
+     With an initial value:
+    <input type="text" id="counter" name="counter" value="0">
+     &nbsp;
+    <input type="submit" value="Add">
+    </div> 
+</form>
+<br>
 
 <div id="objects"> </div>
 

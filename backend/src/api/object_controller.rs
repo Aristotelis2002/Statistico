@@ -53,8 +53,8 @@ pub async fn update_counter_object(info: web::Path<(i32,i32)>) -> impl Responder
             .json(false)
     }
 }
-#[post("/object/delete/{object_id}")]
-pub async fn delete_object_service(info: web::Path<i32>) -> impl Responder{
+#[post("/object/delete/")]
+pub async fn delete_object_service(info: web::Json<i32>) -> impl Responder{
     let object_id = info.into_inner();
     let res = delete_object(object_id);
     if res {

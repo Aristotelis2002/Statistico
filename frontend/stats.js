@@ -1,5 +1,5 @@
 
-function open_statistic(statistic_id){
+function open_statistic(statistic_id,statistic_name){
     return async function(){
         console.log(statistic_id); 
     const response = await fetch(
@@ -11,6 +11,8 @@ function open_statistic(statistic_id){
 	const data = await response.json(); // Extracting data as a JSON Object from the response
     console.log(data);
     sessionStorage.setItem("objects",JSON.stringify(data));
+    //console.log(JSON.stringify({ x: 5, y: 6 }));
+    sessionStorage.setItem("curr_stat",JSON.stringify({name: statistic_name, id: statistic_id}));
     window.location.href = "statistic.html";
     }
 }
@@ -29,7 +31,6 @@ async function update_storage(user_id){
 }
 function delete_statistic(statistic_id){
     return async function(){
-        console.log("TEST");
         var user_id1 = sessionStorage.getItem("userId");
         user_id1 = JSON.parse(user_id1);
         user_id1 = parseInt(user_id1);
@@ -49,9 +50,7 @@ function delete_statistic(statistic_id){
         )
         const data = await response.json(); // Extracting data as a JSON Object from the response
         console.log(data);
-        //sessionStorage.setItem("stat",JSON.stringify(data));
         const result = await update_storage(user_id1);
-        // reload();
     load();
     }
     
@@ -82,9 +81,7 @@ async function create_statistic(submit_event) {
     load();
 }
 document.getElementById('create').addEventListener('submit',create_statistic);
-//podai imeto na statistikata kum href
-//Button suzdai nova statistika
-//button iztrii stara statistika
+
 //button rename statistika
 function load(){
     document.getElementById("statistics").innerHTML = "";
@@ -103,8 +100,8 @@ function load(){
         var new_line = document.createElement("br");  
         neo_link.appendChild(text);
         neo_link.appendChild(new_line);
-        neo_link.onclick = open_statistic(stat[i].id); 
-        
+        neo_link.onclick = open_statistic(stat[i].id,stat[i].name); 
+        neo_link.className = "stat-text";
         separate.appendChild(neo_link);
         separate.appendChild(delete_button);
     
@@ -112,6 +109,8 @@ function load(){
         console.log(i);
     }
 }
+//TODO
+//remove Reload()
 function reload(){
     document.getElementById("statistics").innerHTML = "";
     var stat = sessionStorage.getItem("stat");
