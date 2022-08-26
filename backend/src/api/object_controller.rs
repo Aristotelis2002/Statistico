@@ -36,9 +36,16 @@ pub async fn add_new_object(info: web::Json<ObjectInfoAdd>) -> impl Responder{
             .json(false)
     } 
 }
-#[post("/stat/counter/{object_id}/{value_new}")]
-pub async fn update_counter_object(info: web::Path<(i32,i32)>) -> impl Responder{
-    let (object_id, value_new) = info.into_inner();
+#[derive(Deserialize)]
+pub struct ObjectInfoCounter{
+    id: i32,
+    counter: i32,
+}
+#[post("/object/counter/update/")]
+pub async fn update_counter_object(info: web::Json<ObjectInfoCounter>) -> impl Responder{
+    let info_longer = info.into_inner();
+    let object_id = info_longer.id;
+    let value_new = info_longer.counter;
     let res = update_counter(object_id, value_new);
     if res.is_none(){
       return  HttpResponse::BadRequest()

@@ -57,6 +57,30 @@ function delete_object(object_id){
     }
     
 }
+function crement_object(object_id, diff){
+    return async function(){
+        let counter_value = document.getElementById(object_id).value;
+        counter_value = parseInt(counter_value);
+        counter_value = counter_value + diff;
+        const response = await fetch(
+            `http://127.0.0.1:8080/object/counter/update/`,
+		{
+			method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id: object_id,
+                counter: counter_value})        
+		}
+        )
+        const data = await response.json();
+        console.log(data);
+        const result = await update_storage_objects(curr_stat_id);
+        document.getElementById(object_id).value = counter_value;
+        //load();
+    }
+}
 ////TODO
 //button incr dobavi object id kum nego
 //button decr vsichko
@@ -92,9 +116,12 @@ function load(){
         button_del.onclick = delete_object(objects[i].id);
         button_incr.innerHTML="+";
         button_incr.className = "button-incr";
+        button_incr.onclick = crement_object(objects[i].id, 1);
         button_decr.innerHTML="-";
         button_decr.className = "button-decr";
+        button_decr.onclick = crement_object(objects[i].id, -1);
         counter.type = "text";
+        counter.id = objects[i].id;
         counter.value = objects[i].counter;
         counter.className = "counter-class";
         field.appendChild(node);
