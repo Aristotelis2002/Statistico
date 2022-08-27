@@ -7,14 +7,12 @@ extern crate dotenvy;
 pub mod schema;
 pub mod database;
 pub mod ops;
-//use crate::ops::user_ops::*;
-//use crate::ops::statistic_ops::*;
-//use crate::{ops::object_ops::*, database::models::Object};
+
 mod api;
-//mod tests;
+mod tests;
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, middleware::Logger};
 use api::statistic_controller::*;
-use api::user_controller::*;
+// use api::user_controller::*;
 use api::object_controller::*; 
 use actix_cors::Cors;
 

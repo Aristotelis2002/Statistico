@@ -58,6 +58,7 @@ function delete_statistic(statistic_id){
 async function create_statistic(submit_event) {
     submit_event.preventDefault();
     let statistic_name = document.getElementById('statName').value;
+    document.getElementById('statName').value = "";
     var user_id1 = sessionStorage.getItem("userId");
     user_id1 = JSON.parse(user_id1);
     user_id1 = parseInt(user_id1);

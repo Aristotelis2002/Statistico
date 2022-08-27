@@ -82,12 +82,8 @@ function crement_object(object_id, diff){
     }
 }
 ////TODO
-//button incr dobavi object id kum nego
-//button decr vsichko
-//button delete
 //button rename za imeto
 //handler za ruchno promenqne
-//button dobavi nov object
 //button visualize graph/statistic
 function load(){
     document.getElementById("objects").innerHTML = "";
