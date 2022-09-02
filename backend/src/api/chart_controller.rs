@@ -1,11 +1,7 @@
-use actix_web::{
-    get, http::header::ContentType, post, web, App, HttpRequest, HttpResponse, HttpServer,
-    Responder, Result,
-};
+use actix_web::{get, web, Responder};
 //use serde::{Serialize, Deserialize};
 use actix_files::NamedFile;
 use charts::{Chart, ScaleBand, ScaleLinear, VerticalBarView};
-use std::path::PathBuf;
 
 use crate::{database::models::Object, ops::object_ops::show_objects_by_statistic_id};
 
