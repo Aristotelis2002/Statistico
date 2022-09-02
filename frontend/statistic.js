@@ -1,5 +1,30 @@
 var curr_stat_id;
+// import { ADDRESS } from './env.js'
 document.getElementById('add').addEventListener('submit',add_object);
+// document.getElementById('visualize').addEventListener('submit',get_chart);
+document.getElementById('visualize').onclick = get_chart
+// let fhakjf;
+// let ADDRESS = "http://127.0.0.1:8080";
+
+function get_chart(){
+    //let url = `${ADDRESS}/visualize/`
+    document.getElementById("chart").innerHTML = "";
+    var img = document.createElement("img");
+    img.src=`http://127.0.0.1:8080/visualize/${curr_stat_id}?${(new Date()).getTime()}`;
+    document.getElementById("chart").appendChild(img);
+
+    // const response = await fetch(
+	// 	`http://127.0.0.1:8080/visualize/${curr_stat_id}/`,
+	// 	{
+	// 		method: 'GET',
+	// 	}
+	// );
+	//const chart = await response.json();
+
+    //console.log(data);
+   // const result = await update_storage_objects();
+   // load();
+}
 async function add_object(submit_event){
     submit_event.preventDefault();
     let object_name = document.getElementById('objName').value;
@@ -78,7 +103,6 @@ function crement_object(object_id, diff){
         console.log(data);
         const result = await update_storage_objects(curr_stat_id);
         document.getElementById(object_id).value = counter_value;
-        //load();
     }
 }
 ////TODO
@@ -123,19 +147,13 @@ function load(){
         field.appendChild(node);
         field.appendChild(white_space);
         field.appendChild(button_del);
-        // field.appendChild(new_line);
-        // field.appendChild(new_line);
         separate.appendChild(field);
-        // separate.appendChild(white_space);
-        // separate.appendChild(button_del);
         separate.appendChild(new_line);
         separate.appendChild(button_incr);
         separate.appendChild(counter);
         separate.appendChild(button_decr);
-        // separate.appendChild(new_line);
         separate.className = "separate-object";
         document.getElementById("objects").appendChild(separate);
-       // document.getElementById("objects").appendChild(counter);
     }
 }
 load();

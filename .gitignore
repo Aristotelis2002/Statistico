@@ -4,3 +4,5 @@ Cargo.lock
 database.db
 schema.rs
 tests1.rs
+env.js
+charts

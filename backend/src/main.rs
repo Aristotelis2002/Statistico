@@ -14,6 +14,7 @@ use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, middle
 use api::statistic_controller::*;
 // use api::user_controller::*;
 use api::object_controller::*; 
+use api::chart_controller::*;
 use actix_cors::Cors;
 
 #[actix_web::main]
@@ -36,6 +37,7 @@ async fn main() -> std::io::Result<()> {
         .service(add_new_statistic)
         .service(delete_statistic_service)
         .service(rename_statistic)
+        .service(make_chart)
     })
     .bind(("127.0.0.1", 8080))?
     .run()

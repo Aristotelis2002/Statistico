@@ -1,4 +1,4 @@
-
+// import { ADDRESS } from './env.js'
 function open_statistic(statistic_id,statistic_name){
     return async function(){
         console.log(statistic_id); 
