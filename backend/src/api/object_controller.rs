@@ -74,8 +74,8 @@ pub async fn delete_object_service(info: web::Json<i32>) -> impl Responder{
 }
 #[derive(Deserialize)]
 pub struct ObjectInfo{
-    name: String,
     id: i32,
+    name: String,
 }
 #[post("/object/rename/")]
 pub async fn rename_object(info: web::Json<ObjectInfo>) -> impl Responder{

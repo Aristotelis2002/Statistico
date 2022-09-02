@@ -49,14 +49,14 @@ pub async fn delete_statistic_service(info: web::Json<i32>) -> impl Responder{
 
 #[derive(Deserialize)]
 pub struct StatisticInfoUpdate{
-    statistic_id: i32,   
+    id: i32,   
     name: String,
 }
 #[post("stats/rename/")]
 pub async fn rename_statistic(info: web::Json<StatisticInfoUpdate>) -> impl Responder{
     let info_longer = info.into_inner();
     let statistic_new: Statistic = Statistic { 
-        id: info_longer.statistic_id, 
+        id: info_longer.id, 
         name: info_longer.name, 
         user_id: -1 
     };
@@ -67,4 +67,4 @@ pub async fn rename_statistic(info: web::Json<StatisticInfoUpdate>) -> impl Resp
         HttpResponse::BadRequest()
             .json(false)    
     }
-}//curl "http://localhost:8080/stats/rename/" -X "POST" -H "Content-Type: application/json" -d '{"statistic_id": 2, "name": "movies"}
+}//curl "http://localhost:8080/stats/rename/" -X "POST" -H "Content-Type: application/json" -d '{"id": 2, "name": "movies"}

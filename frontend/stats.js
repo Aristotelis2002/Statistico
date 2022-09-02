@@ -76,9 +76,34 @@ async function create_statistic(submit_event) {
     );
     const data = await response.json(); // Extracting data as a JSON Object from the response
     console.log(data);
-    //sessionStorage.setItem("stat",JSON.stringify(data));
     const result = await update_storage(user_id1);
     load();
+}
+function rename_statistic(statistic_id, statistic_name) {
+    return async function () {
+        var user_id1 = sessionStorage.getItem("userId");
+        user_id1 = JSON.parse(user_id1);
+        user_id1 = parseInt(user_id1);
+        let statistic_new_name = prompt("Enter new name", statistic_name);
+        if (statistic_new_name == null || statistic_new_name == "") {
+            return;
+        }
+        const response = await fetch(
+            `${ADDRESS}/stats/rename/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: statistic_id, name: statistic_new_name })
+            }
+        );
+        const data = await response.json();
+        console.log(data);
+        const result = await update_storage(user_id1);
+        load();
+    }
 }
 document.getElementById('create').addEventListener('submit', create_statistic);
 
@@ -96,6 +121,12 @@ function load() {
         delete_button.className = "delete-class";
         delete_button.innerHTML = "X";
         delete_button.onclick = delete_statistic(stat[i].id);
+        var rename_button = document.createElement('button');
+        var icon = document.createElement('i');
+        icon.className = "fa-solid fa-pen-to-square";
+        rename_button.onclick = rename_statistic(stat[i].id, stat[i].name);
+        rename_button.className = "rename-btn";
+        rename_button.appendChild(icon);
         var text = document.createTextNode(stat[i].name);
         var new_line = document.createElement("br");
         neo_link.appendChild(text);
@@ -103,10 +134,9 @@ function load() {
         neo_link.onclick = open_statistic(stat[i].id, stat[i].name);
         neo_link.className = "stat-text";
         separate.appendChild(neo_link);
+        separate.appendChild(rename_button);
         separate.appendChild(delete_button);
-
         document.getElementById("statistics").appendChild(separate);
-        console.log(i);
     }
 }
 

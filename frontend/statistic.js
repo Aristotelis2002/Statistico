@@ -68,6 +68,29 @@ function delete_object(object_id){
     }
     
 }
+function rename_object(object_id, object_name){
+    return async function(){
+        let object_new_name = prompt("Enter new name", object_name);
+        if (object_new_name == null || object_new_name == "") {
+            return;
+        }
+        const response = await fetch(
+            `${ADDRESS}/object/rename/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: object_id, name: object_new_name })
+            }
+        );
+        const data = await response.json();
+        console.log(data);
+        const result = await update_storage_objects(curr_stat_id);
+        load();
+    }
+}
 function crement_object(object_id, diff){
     return async function(){
         let counter_value = document.getElementById(object_id).value;
@@ -117,6 +140,12 @@ function load(){
         var button_decr = document.createElement("button");
         var button_del = document.createElement("button");
         var new_line = document.createElement("br");
+        var rename_button = document.createElement('button');
+        var icon = document.createElement('i');
+        icon.className = "fa-solid fa-pen-to-square";
+        rename_button.onclick = rename_object(objects[i].id, objects[i].name);
+        rename_button.className = "rename-btn";
+        rename_button.appendChild(icon);
         button_del.className = "delete-class";
         button_del.innerHTML = "X";
         button_del.onclick = delete_object(objects[i].id);
@@ -132,6 +161,7 @@ function load(){
         counter.className = "counter-class";
         field.appendChild(node);
         field.appendChild(white_space);
+        field.appendChild(rename_button);
         field.appendChild(button_del);
         separate.appendChild(field);
         separate.appendChild(new_line);
