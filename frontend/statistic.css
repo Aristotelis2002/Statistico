@@ -1,0 +1,60 @@
+.title {
+    font-family:'Courier New', Courier, monospace;
+    color:royalblue;
+    font-size: 200;
+}
+#objects{
+    
+    width: 12%;
+    border-style:groove;
+    padding: 0.5%;
+}
+.separate-object{
+    border-style:dotted;
+    padding: 3%;
+}
+.counter-class{
+    width: 18%;
+    text-align: center;
+}
+#counter{
+    width: 2%;
+    text-align: center;
+}
+.button-decr{
+    width: 11%;
+}
+#objName{
+    width: 10%;
+}
+.delete-class{
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 3px 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.vis-class{
+    background-color: lime;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.rename-btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 3px 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
