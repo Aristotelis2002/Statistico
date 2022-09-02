@@ -3,7 +3,7 @@ document.getElementById('login').addEventListener('submit',async function(e) {
     e.preventDefault(); //to prevent form submission
     let id = document.getElementById('userId').value;// ; added
     const response = await fetch(
-		`http://127.0.0.1:8080/stats/${id}`,
+		`${ADDRESS}/stats/${id}`,
 		{
 			method: 'GET',
 		}

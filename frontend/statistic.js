@@ -1,29 +1,15 @@
 var curr_stat_id;
-// import { ADDRESS } from './env.js'
 document.getElementById('add').addEventListener('submit',add_object);
-// document.getElementById('visualize').addEventListener('submit',get_chart);
 document.getElementById('visualize').onclick = get_chart
-// let fhakjf;
-// let ADDRESS = "http://127.0.0.1:8080";
+
 
 function get_chart(){
-    //let url = `${ADDRESS}/visualize/`
     document.getElementById("chart").innerHTML = "";
     var img = document.createElement("img");
-    img.src=`http://127.0.0.1:8080/visualize/${curr_stat_id}?${(new Date()).getTime()}`;
+    img.src=`${ADDRESS}/visualize/${curr_stat_id}?${(new Date()).getTime()}`;
     document.getElementById("chart").appendChild(img);
 
-    // const response = await fetch(
-	// 	`http://127.0.0.1:8080/visualize/${curr_stat_id}/`,
-	// 	{
-	// 		method: 'GET',
-	// 	}
-	// );
-	//const chart = await response.json();
-
-    //console.log(data);
-   // const result = await update_storage_objects();
-   // load();
+    
 }
 async function add_object(submit_event){
     submit_event.preventDefault();
@@ -34,7 +20,7 @@ async function add_object(submit_event){
 
     counter_value = parseInt(counter_value);
     const response = await fetch(
-		`http://127.0.0.1:8080/object/add/`,
+		`${ADDRESS}/object/add/`,
 		{
 			method: 'POST',
             headers: {
@@ -53,7 +39,7 @@ async function add_object(submit_event){
 }
 async function update_storage_objects(){
     const response = await fetch(
-		`http://127.0.0.1:8080/load/stat/${curr_stat_id}`,
+		`${ADDRESS}/load/stat/${curr_stat_id}`,
 		{
 			method: 'GET',
 		}
@@ -64,7 +50,7 @@ async function update_storage_objects(){
 function delete_object(object_id){
     return async function(){
         const response = await fetch(
-            `http://127.0.0.1:8080/object/delete/`,
+            `${ADDRESS}/object/delete/`,
 		{
 			method: 'POST',
             headers: {
@@ -88,7 +74,7 @@ function crement_object(object_id, diff){
         counter_value = parseInt(counter_value);
         counter_value = counter_value + diff;
         const response = await fetch(
-            `http://127.0.0.1:8080/object/counter/update/`,
+            `${ADDRESS}/object/counter/update/`,
 		{
 			method: 'POST',
             headers: {
