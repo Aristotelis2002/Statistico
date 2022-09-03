@@ -18,7 +18,7 @@ pub struct ObjectInfoAdd {
     statistic_id: i32,
     counter: i32,
 }
-#[post("/object/add/")] //not tested
+#[post("/object/add/")] 
 pub async fn add_new_object(info: web::Json<ObjectInfoAdd>) -> impl Responder {
     let info_longer = info.into_inner();
     let object_new: NewObject = NewObject {

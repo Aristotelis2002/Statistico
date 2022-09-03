@@ -38,7 +38,7 @@ mod tests {
         assert_eq!(update_statistic(res),true);
         let res2 = show_statistic_by_id(last_id + 1);
         assert_eq!(res2.name, "shoes");
-        delete_statistic(last_id + 1);
+        assert_eq!(delete_statistic(last_id + 1) , true);
     }
     #[test]
     #[serial]
