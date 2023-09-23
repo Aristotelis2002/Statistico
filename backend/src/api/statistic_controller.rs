@@ -10,11 +10,14 @@ use crate::{
 #[get("/stats/{user_id}")] 
 pub async fn get_all_statistics(info: web::Path<i32>) -> impl Responder {
     let user_id: i32 = info.into_inner();
-    let all_statistics: Vec<Statistic> = show_statistic_by_user_id(user_id);
-
-    HttpResponse::Ok()
+    let all_statistics: Option<Vec<Statistic>> = show_statistic_by_user_id(user_id);
+    match all_statistics {
+        None => HttpResponse::BadRequest().json(false),
+        Some(statistics) => HttpResponse::Ok()
         .content_type(ContentType::json())
-        .body(serde_json::to_string(&all_statistics).unwrap())
+        .body(serde_json::to_string(&statistics).unwrap_or_default())
+    }
+    
 }
 #[derive(Deserialize)]
 pub struct StatisticInfo {
@@ -28,7 +31,7 @@ pub async fn add_new_statistic(info: web::Json<StatisticInfo>) -> impl Responder
         name: (info_longer.name.as_str()),
         user_id: (info_longer.user_id),
     };
-    
+
     if create_statistic(statistic_new) {
         HttpResponse::Ok().json(true)
     } else {

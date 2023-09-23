@@ -24,9 +24,8 @@ pub fn show_statistic_by_id(statistic_id: i32) -> Option<Statistic> {
         .find(statistic_id)
         .get_result::<Statistic>(&connection)
         .ok()
-        // .expect("Failed to find statistic")
 }
-pub fn show_statistic_by_user_id(user_id: i32) -> Vec<Statistic> {
+pub fn show_statistic_by_user_id(user_id: i32) -> Option<Vec<Statistic>> {
     let connection = establish_connection();
     sql_query(format!(
         "SELECT id, name, user_id
@@ -34,7 +33,7 @@ pub fn show_statistic_by_user_id(user_id: i32) -> Vec<Statistic> {
         user_id
     ))
     .load(&connection)
-    .expect("Find statistics by user id query failed")
+    .ok()
 }
 pub fn update_statistic(statistic_entity: Statistic) -> bool {
     let connection = establish_connection();

@@ -9,7 +9,6 @@ mod api;
 mod tests;
 use actix_web::{middleware::Logger, App, HttpServer};
 use api::statistic_controller::*;
-// use api::user_controller::*;
 use actix_cors::Cors;
 use api::chart_controller::*;
 use api::object_controller::*;

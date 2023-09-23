@@ -35,16 +35,17 @@ pub fn show_objects_by_statistic_id(statistic_id: i32) -> Option<Vec<Object>> {
     ))
     .load(&connection)
     .ok()
-    //.expect("Find object by statistic id query failed")
 }
-pub fn update_object(object_entity: Object) {
+pub fn update_object(object_entity: Object) -> bool {
     let connection = establish_connection();
-    diesel::update(objects::table.find(object_entity.id))
+    if diesel::update(objects::table.find(object_entity.id))
         .set(objects::name.eq(object_entity.name))
         .execute(&connection)
-        .expect("Couldn't update object name");
+        .is_err() {
+            return false;
+        }
 
-    update_counter(object_entity.id, object_entity.counter);
+    return update_counter(object_entity.id, object_entity.counter).is_some();
 }
 pub fn update_object_name(id_new: i32, name_new: String) -> bool {
     let connection = establish_connection();
