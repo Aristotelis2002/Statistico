@@ -1,4 +1,4 @@
-use actix_web::{get, web, Responder, HttpResponse};
+use actix_web::{get, web, Responder};
 use actix_files::NamedFile;
 use charts::{Chart, ScaleBand, ScaleLinear, VerticalBarView};
 
@@ -9,7 +9,7 @@ pub async fn make_chart(info: web::Path<i32>) -> impl Responder {
     let stat_id = info.into_inner();
     let option_items = show_objects_by_statistic_id(stat_id);
     if option_items.is_none() {
-        return HttpResponse::BadRequest().json(false);
+        return NamedFile::open_async("").await;
     }
     let items: Vec<Object> = option_items.unwrap();
     let domain: Vec<String> = items.iter().map(|obj| obj.name.to_string()).collect();
@@ -67,8 +67,5 @@ pub async fn make_chart(info: web::Path<i32>) -> impl Responder {
         .save(&save_path)
         .unwrap();
 
-    match NamedFile::open_async(save_path).await {
-        Ok(_) => HttpResponse::Ok().json(true),
-        Err(e) => HttpResponse::BadRequest().json(e.to_string()) 
-    }
+    return NamedFile::open_async(save_path).await;
 }
