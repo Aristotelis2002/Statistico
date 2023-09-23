@@ -10,7 +10,6 @@ pub fn create_object(new_object: NewObject) -> bool {
         .values(&new_object)
         .execute(&connection)
         .is_ok()
-    //.expect("Failed creating a new object");
 }
 pub fn delete_object(object_id: i32) -> bool {
     use crate::schema::objects::dsl::*;
@@ -18,17 +17,16 @@ pub fn delete_object(object_id: i32) -> bool {
     diesel::delete(objects.find(object_id))
         .execute(&connection)
         .is_ok()
-    //.expect("Failed to delete object")
 }
-pub fn show_object_by_id(object_id: i32) -> Object {
+pub fn show_object_by_id(object_id: i32) -> Option<Object> {
     let connection = establish_connection();
+
     objects::table
         .find(object_id)
         .get_result::<Object>(&connection)
         .ok()
-        .expect("Failed to find object")
 }
-pub fn show_objects_by_statistic_id(statistic_id: i32) -> Vec<Object> {
+pub fn show_objects_by_statistic_id(statistic_id: i32) -> Option<Vec<Object>> {
     let connection = establish_connection();
     sql_query(format!(
         "SELECT *
@@ -36,7 +34,8 @@ pub fn show_objects_by_statistic_id(statistic_id: i32) -> Vec<Object> {
         statistic_id
     ))
     .load(&connection)
-    .expect("Find object by statistic id query failed")
+    .ok()
+    //.expect("Find object by statistic id query failed")
 }
 pub fn update_object(object_entity: Object) {
     let connection = establish_connection();
@@ -53,7 +52,6 @@ pub fn update_object_name(id_new: i32, name_new: String) -> bool {
         .set(objects::name.eq(name_new))
         .execute(&connection)
         .is_ok()
-    //.expect("Couldn't update object name");
 }
 
 pub fn update_counter(object_id: i32, counter_value: i32) -> Option<usize> {
@@ -62,5 +60,4 @@ pub fn update_counter(object_id: i32, counter_value: i32) -> Option<usize> {
         .set(objects::counter.eq(counter_value))
         .execute(&connection)
         .ok()
-    //.expect("Couldn't update object counter");
 }

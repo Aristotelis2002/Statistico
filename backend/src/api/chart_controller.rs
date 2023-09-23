@@ -1,5 +1,4 @@
-use actix_web::{get, web, Responder};
-//use serde::{Serialize, Deserialize};
+use actix_web::{get, web, Responder, HttpResponse};
 use actix_files::NamedFile;
 use charts::{Chart, ScaleBand, ScaleLinear, VerticalBarView};
 
@@ -8,7 +7,11 @@ use crate::{database::models::Object, ops::object_ops::show_objects_by_statistic
 #[get("/visualize/{statistic_id}")]
 pub async fn make_chart(info: web::Path<i32>) -> impl Responder {
     let stat_id = info.into_inner();
-    let items: Vec<Object> = show_objects_by_statistic_id(stat_id);
+    let option_items = show_objects_by_statistic_id(stat_id);
+    if option_items.is_none() {
+        return HttpResponse::BadRequest().json(false);
+    }
+    let items: Vec<Object> = option_items.unwrap();
     let domain: Vec<String> = items.iter().map(|obj| obj.name.to_string()).collect();
 
     let max_count = items.iter().map(|obj| obj.counter).max().unwrap_or(0);
@@ -64,5 +67,8 @@ pub async fn make_chart(info: web::Path<i32>) -> impl Responder {
         .save(&save_path)
         .unwrap();
 
-    NamedFile::open_async(save_path).await
+    match NamedFile::open_async(save_path).await {
+        Ok(_) => HttpResponse::Ok().json(true),
+        Err(e) => HttpResponse::BadRequest().json(e.to_string()) 
+    }
 }

@@ -35,6 +35,9 @@ pub struct Statistic{
     pub name: String,
     pub user_id : i32,
 }
+pub fn build_statistic(id: i32, name: String) -> Statistic {
+    Statistic { id: id, name: name, user_id: -1 }
+}
 impl Responder for Statistic {
     type Body = BoxBody;
     fn respond_to(self, _req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {

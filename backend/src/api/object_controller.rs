@@ -2,15 +2,17 @@ use actix_web::{get, post, web, HttpResponse, Responder};
 use serde::Deserialize;
 
 use crate::{
-    database::models::{NewObject, Object},
+    database::models::NewObject,
     ops::object_ops::*,
 };
 
 #[get("/load/stat/{statistic_id}")]
 pub async fn get_all_objects(info: web::Path<i32>) -> impl Responder {
     let statistic_id: i32 = info.into_inner();
-    let get_all_objects: Vec<Object> = show_objects_by_statistic_id(statistic_id);
-    HttpResponse::Ok().json(get_all_objects)
+    match show_objects_by_statistic_id(statistic_id) {
+        None => HttpResponse::BadRequest().json(false),
+        Some(objects) => HttpResponse::Ok().json(objects),
+    }
 }
 #[derive(Deserialize)]
 pub struct ObjectInfoAdd {
@@ -43,13 +45,10 @@ pub async fn update_counter_object(info: web::Json<ObjectInfoCounter>) -> impl R
     let object_id = info_longer.id;
     let value_new = info_longer.counter;
     let res = update_counter(object_id, value_new);
-    if res.is_none() {
-        return HttpResponse::BadRequest().json(false);
-    }
-    if res.unwrap() != 0 {
-        HttpResponse::Ok().json(true)
-    } else {
-        HttpResponse::BadRequest().json(false)
+    match res {
+        None => HttpResponse::BadRequest().json(false),
+        Some(0) => HttpResponse::BadRequest().json(false),
+        Some(_) => HttpResponse::Ok().json(true),
     }
 }
 #[post("/object/delete/")]

@@ -114,10 +114,7 @@ function crement_object(object_id, diff){
         document.getElementById(object_id).value = counter_value;
     }
 }
-////TODO
-//button rename za imeto
-//handler za ruchno promenqne
-//button visualize graph/statistic
+
 function load(){
     document.getElementById("objects").innerHTML = "";
     document.getElementById("stat_name").innerHTML = "";

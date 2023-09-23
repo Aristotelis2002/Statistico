@@ -10,7 +10,6 @@ pub fn create_statistic(new_stat: NewStatistic) -> bool {
         .values(&new_stat)
         .execute(&connection)
         .is_ok()
-    //.expect("Failed creating a new statistic");
 }
 pub fn delete_statistic(statistic_id: i32) -> bool {
     use crate::schema::statistics::dsl::*;
@@ -18,15 +17,14 @@ pub fn delete_statistic(statistic_id: i32) -> bool {
     diesel::delete(statistics.find(statistic_id))
         .execute(&connection)
         .is_ok()
-    //.expect("Failed to delete statistic");
 }
-pub fn show_statistic_by_id(statistic_id: i32) -> Statistic {
+pub fn show_statistic_by_id(statistic_id: i32) -> Option<Statistic> {
     let connection = establish_connection();
     statistics::table
         .find(statistic_id)
         .get_result::<Statistic>(&connection)
         .ok()
-        .expect("Failed to find statistic")
+        // .expect("Failed to find statistic")
 }
 pub fn show_statistic_by_user_id(user_id: i32) -> Vec<Statistic> {
     let connection = establish_connection();
@@ -44,5 +42,4 @@ pub fn update_statistic(statistic_entity: Statistic) -> bool {
         .set(statistics::name.eq(statistic_entity.name))
         .execute(&connection)
         .is_ok()
-    //.expect("Failed to update statistic");
 }

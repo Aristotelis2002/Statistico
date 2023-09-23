@@ -16,7 +16,7 @@ mod tests {
         let test1: NewUser = NewUser { username: "Peter" };
         let res = create_user(test1);
         let user = show_by_user_id(res.unwrap()).unwrap();
-        delete_user(user.id); //if it doesnt panic, it works
+        delete_user(user.id); 
     }
     #[test]
     #[serial]
@@ -34,10 +34,14 @@ mod tests {
         };
         assert_eq!(create_statistic(test2),true);
         let mut res = show_statistic_by_id(last_id + 1);
-        res.name = String::from("shoes");
-        assert_eq!(update_statistic(res),true);
+        assert!(res.is_some(), "The statisitic exists, therefore panic is not expected");
+
+        res.as_mut().unwrap().name = String::from("shoes");
+        assert_eq!(update_statistic(res.unwrap()),true);
         let res2 = show_statistic_by_id(last_id + 1);
-        assert_eq!(res2.name, "shoes");
+        assert!(res2.is_some(), "The statisitic exists, therefore panic is not expected");
+        
+        assert_eq!(res2.unwrap().name, "shoes");
         assert_eq!(delete_statistic(last_id + 1) , true);
     }
     #[test]
@@ -54,13 +58,17 @@ mod tests {
             statistic_id: 15,
             counter: 4,
         };
+        
         create_object(test3);
         let res = show_object_by_id(last_id + 1);
-        assert_eq!(res.name, "red book");
-        // delete_object(2);
+        assert!(res.is_some());
+        assert_eq!(res.unwrap().name, "red book");
+
         update_counter(last_id + 1, 24);
         let res = show_object_by_id(last_id + 1);
-        assert_eq!(res.counter, 24);
+        
+        assert!(res.is_some());
+        assert_eq!(res.unwrap().counter, 24);
         update_object(Object {
             id: last_id + 1,
             name: String::from("yellow book"),
@@ -68,7 +76,9 @@ mod tests {
             counter: 54,
         });
         let res = show_object_by_id(last_id + 1);
-        assert_eq!(res.name, "yellow book");
+
+        assert!(res.is_some());
+        assert_eq!(res.unwrap().name, "yellow book");
         assert_eq!(delete_object(last_id + 1), true);
     }
 }

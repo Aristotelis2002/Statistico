@@ -11,7 +11,6 @@ function open_statistic(statistic_id, statistic_name) {
         const data = await response.json(); // Extracting data as a JSON Object from the response
         console.log(data);
         sessionStorage.setItem("objects", JSON.stringify(data));
-        //console.log(JSON.stringify({ x: 5, y: 6 }));
         sessionStorage.setItem("curr_stat", JSON.stringify({ name: statistic_name, id: statistic_id }));
         window.location.href = "statistic.html";
     }
@@ -25,7 +24,6 @@ async function update_storage(user_id) {
         }
     );
     const data = await response.json(); // Extracting data as a JSON Object from the response
-    // console.log(data);
     sessionStorage.setItem("stat", JSON.stringify(data));
 
 }
@@ -43,7 +41,6 @@ function delete_statistic(statistic_id) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                //body: JSON.stringify({statistic_id})
                 body: statistic_id
 
             }
@@ -107,7 +104,6 @@ function rename_statistic(statistic_id, statistic_name) {
 }
 document.getElementById('create').addEventListener('submit', create_statistic);
 
-//button rename statistika
 function load() {
     document.getElementById("statistics").innerHTML = "";
     var stat = sessionStorage.getItem("stat");
@@ -118,24 +114,31 @@ function load() {
         var separate = document.createElement("div");
         var neo_link = document.createElement('button');
         var delete_button = document.createElement('button');
+
         delete_button.className = "delete-class";
         delete_button.innerHTML = "X";
         delete_button.onclick = delete_statistic(stat[i].id);
+
         var rename_button = document.createElement('button');
         var icon = document.createElement('i');
+
         icon.className = "fa-solid fa-pen-to-square";
         rename_button.onclick = rename_statistic(stat[i].id, stat[i].name);
         rename_button.className = "rename-btn";
         rename_button.appendChild(icon);
+
         var text = document.createTextNode(stat[i].name);
         var new_line = document.createElement("br");
+        
         neo_link.appendChild(text);
         neo_link.appendChild(new_line);
         neo_link.onclick = open_statistic(stat[i].id, stat[i].name);
         neo_link.className = "stat-text";
+        
         separate.appendChild(neo_link);
         separate.appendChild(rename_button);
         separate.appendChild(delete_button);
+        
         document.getElementById("statistics").appendChild(separate);
     }
 }
